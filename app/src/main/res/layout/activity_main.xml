@@ -18,9 +18,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
+            android:ems="8"
             android:inputType="text"
             android:hint="Dodaj produkt" />
+
+        <EditText
+            android:id="@+id/editTextCena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+            android:hint="Cena"
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/buttonDodajProdukt"

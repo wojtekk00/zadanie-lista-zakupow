@@ -22,10 +22,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ArrayList<String> listaProduktow;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<Produkt> listaProduktow;
+    private ArrayAdapter<Produkt> arrayAdapter;
     private Button button;
     private EditText editText;
+    private EditText editTextCena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +40,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listaProduktow =  new ArrayList<>();
+        listaProduktow.add(new Produkt("mleko", 3.5));
         arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, listaProduktow);
         listView = findViewById(R.id.listViewListaZakupow);
         listView.setAdapter(arrayAdapter);
         button = findViewById(R.id.buttonDodajProdukt);
         editText = findViewById(R.id.editTextProdukt);
+        editTextCena = findViewById(R.id.editTextCena);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listaProduktow.add(editText.getText().toString());
+                String nazwa = editText.getText().toString();
+                double cena = Double.parseDouble(editTextCena.getText().toString());
+                listaProduktow.add(new Produkt(nazwa, cena));
                 arrayAdapter.notifyDataSetChanged();
             }
         });
@@ -58,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 //i zawiera intex kliknietego elementu
                 //view.setBackgroundColor(Color.GREEN);
                 //listaProduktow.remove(i);
+                if (listaProduktow.get(i).isCzySkreslone()){
+                    listaProduktow.get(i).setCzySkreslone(false);
+                }
+                else{
+                    listaProduktow.get(i).setCzySkreslone(true);
+                }
                 TextView textView = (TextView)view;
                 if (textView.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG){
                     textView.setPaintFlags(Paint.ANTI_ALIAS_FLAG);
