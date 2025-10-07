@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private EditText editText;
     private EditText editTextCena;
+    private TextView textViewSuma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listaProduktow =  new ArrayList<>();
-        listaProduktow.add(new Produkt("mleko", 3.5));
         arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, listaProduktow);
         listView = findViewById(R.id.listViewListaZakupow);
         listView.setAdapter(arrayAdapter);
         button = findViewById(R.id.buttonDodajProdukt);
         editText = findViewById(R.id.editTextProdukt);
         editTextCena = findViewById(R.id.editTextCena);
+        textViewSuma = findViewById(R.id.textView);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 double cena = Double.parseDouble(editTextCena.getText().toString());
                 listaProduktow.add(new Produkt(nazwa, cena));
                 arrayAdapter.notifyDataSetChanged();
+                wypiszSumeCen();
             }
+
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,7 +80,17 @@ public class MainActivity extends AppCompatActivity {
                     textView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 }
                 arrayAdapter.notifyDataSetChanged();
+                wypiszSumeCen();
             }
         });
+    }
+    public void wypiszSumeCen(){
+        double suma = 0;
+        for(int i = 0; i < listaProduktow.size(); i++){
+            if(!listaProduktow.get(i).isCzySkreslone()) {
+                suma += listaProduktow.get(i).getCena();
+            }
+        }
+        textViewSuma.setText("Suma cen: " + suma);
     }
 }
